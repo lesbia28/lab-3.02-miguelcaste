@@ -47,7 +47,6 @@ mileage INT,
 PRIMARY KEY(id)
 );
 
-  -- id,model,seats vamos lesbia
 
 DROP TABLE IF EXISTS aircraft;
 
@@ -102,10 +101,6 @@ INSERT INTO flight(flight_number, mileage, aircraft_id) VALUES
 ('DL37', 531, 1);
 
 INSERT INTO	trip_information(customer_id, flight_number_id) VALUES
-(1, 1);
-
-
-INSERT INTO	trip_information(customer_id, flight_number_id) VALUES
 (1, 'DL143'),
 (1, 'DL122'),
 (2, 'DL122'),
@@ -124,22 +119,23 @@ INSERT INTO	trip_information(customer_id, flight_number_id) VALUES
 (4, 'DL37'),
 (8, 'DL222');
 
--- madre mia para comprobar esto va a ser muy dificil
-SELECT 
 
-
- 
- 
 -- 3. Get the total number of flights in the database.
+SELECT COUNT(flight_number) FROM flight;
 -- 4. Get the average flight distance.
+SELECT AVG (mileage) FROM flight;
 -- 5. Get the average number of seats.
--- 6. Get the average number of miles flown by customers grouped by status.
+SELECT AVG (seats) FROM aircraft;
+-- 6. Get the average number of miles flown by customers grouped by status. 
+SELECT AVG(mileage), status FROM customer GROUP BY status; 
 -- 7. Get the maximum number of miles flown by customers grouped by status.
+SELECT MAX(mileage), status FROM customer GROUP BY status; 
 -- 8. Get the total number of aircraft with a name containing Boeing.
+SELECT COUNT(model) FROM aircraft WHERE model LIKE '%Boeing%';
 -- 9. Find all flights with a distance between 300 and 2000 miles.
+SELECT (flight_number) FROM flight WHERE mileage BETWEEN 300 AND 2000;
 -- 10. Find the average flight distance booked grouped by customer status (this should require a join).
+SELECT AVG (f.mileage),c.status FROM trip_information t JOIN (customer c, flight f) ON (t.customer_id=c.id AND t.flight_number_id=f.flight_number) GROUP BY c.status ;
 -- 11. Find the most often booked aircraft by gold status members (this should require a join).
-
- 
-
+SELECT MAX(a.model) FROM trip_information t JOIN (customer c, flight f, aircraft a) ON (t.customer_id= c.id AND t.flight_number_id=f.flight_number AND f.aircraft_id=a.id) WHERE c.status="Gold";
 
